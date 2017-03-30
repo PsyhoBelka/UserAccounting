@@ -73,7 +73,6 @@ public class UsersList {
 	@FXML
 	Button dateSearchButton;
 	
-	@FXML
 	public void initialize() {
 		usersIdColumn.setCellValueFactory(new PropertyValueFactory <User, Integer>("id"));
 		usersFirstNameColumn.setCellValueFactory(new PropertyValueFactory <User, String>("firstName"));
@@ -87,8 +86,6 @@ public class UsersList {
 		usersTableView.setItems(usersObservableList);
 		usersTableView.refresh();*/
 	}
-	
-	
 	
 	@FXML
 	public void addButtonClick(ActionEvent actionEvent) throws IOException {
@@ -114,7 +111,9 @@ public class UsersList {
 	
 	@FXML
 	public void deleteSelectedButtonClick(ActionEvent actionEvent) {
-		
+		User selectedUser=usersTableView.getSelectionModel().getSelectedItem();
+		new UserDAO().deleteUser(selectedUser.getId());
+		refreshUsersListButton.fire();
 	}
 	
 	@FXML
@@ -131,7 +130,11 @@ public class UsersList {
 	
 	@FXML
 	public void dateSearchButtonClick(ActionEvent actionEvent) {
+		java.sql.Date searchStart=java.sql.Date.valueOf(startDateSearch.getValue());
+		java.sql.Date searchEnd=java.sql.Date.valueOf(endDateSearch.getValue());
 		
+		usersTableView.setItems(FXCollections.observableArrayList(new UserDAO().searchBetweenDate(searchStart,searchEnd)));
+		usersTableView.refresh();
 	}
 	
 	@FXML
@@ -161,7 +164,7 @@ public class UsersList {
 		this.usersListStage = usersListStage;
 	}
 	
-	public void userEditingStageCreate(boolean mode) throws Exception {
+	private void userEditingStageCreate(boolean mode) throws Exception {
 		FXMLLoader fxmlLoader = new FXMLLoader();
 		fxmlLoader.setLocation(mainApp.getClass().getResource("views/userEditing.fxml"));
 		

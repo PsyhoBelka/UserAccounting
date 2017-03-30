@@ -94,11 +94,11 @@ public class UserEditing {
 		}
 	}
 	
-	public void setEditMode(boolean editMode) {
+	void setEditMode(boolean editMode) {
 		this.editMode = editMode;
 	}
 	
-	public void setUserEditingStage(Stage userEditingStage) {
+	void setUserEditingStage(Stage userEditingStage) {
 		this.userEditingStage = userEditingStage;
 	}
 	
